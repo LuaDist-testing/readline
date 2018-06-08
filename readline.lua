@@ -7,8 +7,8 @@
 ---------------------------------------------------------------------
 
 local M = {} -- public interface
-M.Version     = '1.5' -- switch pod and doc over to using moonrocks
-M.VersionDate = '08jun2014'
+M.Version     = '1.8' -- readline() returns nil correctly on EOF
+M.VersionDate = '20oct2015'
 
 -------------------- private utility functions -------------------
 local function warn(str) io.stderr:write(str,'\n') end
@@ -148,6 +148,7 @@ function M.readline ( prompt )
 		die('readline: prompt must be a string, not '..type(prompt))
 	end
 	local line = prv.readline ( prompt )   -- might be nil if EOF...
+	if line == nil then return nil end -- 1.8
 	if Option['auto_add'] and line and line~=''
 	  and string.len(line)>=Option['minlength'] then
 		if line ~= PreviousLine or not Option['ignoredups'] then
@@ -311,7 +312,7 @@ so you should be able to install it with the command:
 
 or:
 
- # luarocks install http://www.pjb.com.au/comp/lua/readline-1.5-0.rockspec
+ # luarocks install http://www.pjb.com.au/comp/lua/readline-1.8-0.rockspec
 
 It depends on the I<readline> library and its header-files;
 for example on Debian you may need:
@@ -324,6 +325,8 @@ or on Centos you may need:
 
 =head1 CHANGES
 
+ 20151020 1.8 readline() returns nil correctly on EOF
+ 20150422 1.7 works with lua5.3
  20140608 1.5 switch pod and doc over to using moonrocks
  20140519 1.4 installs as readline not Readline under luarocks 2.1.2
  20131031 1.3 readline erases final space if tab-completion is used

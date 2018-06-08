@@ -1,16 +1,16 @@
 -- This file was automatically generated for the LuaDist project.
 
 package = "readline"
-version = "1.7-0"
+version = "1.8-0"
 -- LuaDist source
 source = {
-  tag = "1.7-0",
+  tag = "1.8-0",
   url = "git://github.com/LuaDist-testing/readline.git"
 }
 -- Original source
 -- source = {
---    url = "http://www.pjb.com.au/comp/lua/readline-1.7.tar.gz",
---    md5 = "66b39d3647a20b87bca20786867d8425"
+--    url = "http://www.pjb.com.au/comp/lua/readline-1.8.tar.gz",
+--    md5 = "4b64f885771a22a1b32a6e8d09cc7d5e"
 -- }
 description = {
    summary = "Interface to the readline library",
