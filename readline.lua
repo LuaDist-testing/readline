@@ -302,12 +302,12 @@ and call I<add_history(line)> if appropriate.
 =head1 DOWNLOAD
 
 This module is available as a LuaRock in
-http://rocks.moonscript.org/modules/peterbillam
+http://luarocks.org/modules/peterbillam
 so you should be able to install it with the command:
 
  $ su
  Password:
- # luarocks install --server=http://rocks.moonscript.org readline
+ # luarocks install readline
 
 or:
 
@@ -348,7 +348,7 @@ http://www.pjb.com.au/comp/contact.html
  /usr/share/readline/inputrc
  ~/.inputrc
  http://lua-users.org/wiki/CompleteWithReadline
- http://rocks.moonscript.org/modules/gvvaughan/luaposix
+ http://luarocks.org/modules/gvvaughan/luaposix
  http://www.pjb.com.au
  http://www.pjb.com.au/comp/index.html#lua
 

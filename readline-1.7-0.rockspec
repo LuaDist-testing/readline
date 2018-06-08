@@ -1,16 +1,16 @@
 -- This file was automatically generated for the LuaDist project.
 
 package = "readline"
-version = "1.6-0"
+version = "1.7-0"
 -- LuaDist source
 source = {
-  tag = "1.6-0",
+  tag = "1.7-0",
   url = "git://github.com/LuaDist-testing/readline.git"
 }
 -- Original source
 -- source = {
---    url = "http://www.pjb.com.au/comp/lua/readline-1.6.tar.gz",
---    md5 = "56761d494f3c9056955879e832c8a420"
+--    url = "http://www.pjb.com.au/comp/lua/readline-1.7.tar.gz",
+--    md5 = "66b39d3647a20b87bca20786867d8425"
 -- }
 description = {
    summary = "Interface to the readline library",
@@ -23,13 +23,17 @@ description = {
 }
 -- http://www.luarocks.org/en/Rockspec_format
 dependencies = {
-   "lua >=5.1, <5.3",
+   "lua >=5.1, <5.4",
    "luaposix >= 30",
 }
 external_dependencies = {  -- Duarn 20150216, 20150416
 	READLINE = {
+		header  = "readline/readline.h";
 		library = "readline";
 	};
+	HISTORY = {
+		header  = "readline/history.h";
+	}
 }
 build = {
    type = "builtin",
