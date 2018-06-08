@@ -7,8 +7,8 @@
 ---------------------------------------------------------------------
 
 local M = {} -- public interface
-M.Version     = '1.4' -- 
-M.VersionDate = '18mar2014'
+M.Version     = '1.5' -- switch pod and doc over to using moonrocks
+M.VersionDate = '08jun2014'
 
 -------------------- private utility functions -------------------
 local function warn(str) io.stderr:write(str,'\n') end
@@ -302,16 +302,16 @@ and call I<add_history(line)> if appropriate.
 =head1 DOWNLOAD
 
 This module is available as a LuaRock in
-luarocks.org/repositories/rocks
+http://rocks.moonscript.org/modules/peterbillam
 so you should be able to install it with the command:
 
  $ su
  Password:
- # luarocks install readline
+ # luarocks install --server=http://rocks.moonscript.org readline
 
 or:
 
- # luarocks install http://www.pjb.com.au/comp/lua/readline-1.4-0.rockspec
+ # luarocks install http://www.pjb.com.au/comp/lua/readline-1.5-0.rockspec
 
 It depends on the I<readline> library and its header-files;
 for example on Debian you may need:
@@ -324,6 +324,7 @@ or on Centos you may need:
 
 =head1 CHANGES
 
+ 20140608 1.5 switch pod and doc over to using moonrocks
  20140519 1.4 installs as readline not Readline under luarocks 2.1.2
  20131031 1.3 readline erases final space if tab-completion is used
  20131020 1.2 set_options{histfile='~/d'} expands the tilde
@@ -347,7 +348,7 @@ http://www.pjb.com.au/comp/contact.html
  /usr/share/readline/inputrc
  ~/.inputrc
  http://lua-users.org/wiki/CompleteWithReadline
- http://luarocks.org/repositories/rocks/index.html#luaposix
+ http://rocks.moonscript.org/modules/gvvaughan/luaposix
  http://www.pjb.com.au
  http://www.pjb.com.au/comp/index.html#lua
 

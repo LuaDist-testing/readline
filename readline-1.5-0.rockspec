@@ -1,16 +1,16 @@
 -- This file was automatically generated for the LuaDist project.
 
 package = "readline"
-version = "1.4-1"
+version = "1.5-0"
 -- LuaDist source
 source = {
-  tag = "1.4-1",
+  tag = "1.5-0",
   url = "git://github.com/LuaDist-testing/readline.git"
 }
 -- Original source
 -- source = {
---    url = "http://www.pjb.com.au/comp/lua/readline-1.4.tar.gz",
---    md5 = "4ed4706d2a20d61dc13b0d0221b91036"
+--    url = "http://www.pjb.com.au/comp/lua/readline-1.5.tar.gz",
+--    md5 = "6cef95bd94f092b1236a66e2bb72ec62"
 -- }
 description = {
    summary = "Interface to the readline library",
@@ -19,25 +19,21 @@ description = {
       to the GNU Readline/History Library.
    ]],
    homepage = "http://www.pjb.com.au/comp/lua/readline.html",
-   license = "MIT/X11"
+   license = "MIT/X11",
 }
+-- http://www.luarocks.org/en/Rockspec_format
 dependencies = {
-   "lua >=5.1, <5.3", "luaposix >= 30"
+   "lua >=5.1, <5.3",
+   "luaposix >= 30",
 }
 build = {
    type = "builtin",
    modules = {
-      ['C-readline'] = {
-         libraries = {
-            "readline"
-         },
-         sources = {
-            "C-readline.c"
-         }
+      ["readline"] = "readline.lua",
+      ["C-readline"] = {
+         sources   = { "C-readline.c" },
+         libraries = { "readline" },
       },
-      readline = "readline.lua"
    },
-   copy_directories = {
-      "doc", "test"
-   }
+   copy_directories = { "doc", "test" },
 }
