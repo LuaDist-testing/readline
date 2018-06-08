@@ -7,8 +7,8 @@
 ---------------------------------------------------------------------
 
 local M = {} -- public interface
-M.Version     = '1.1' -- uses controlling terminal to dialogue with the user
-M.VersionDate = '21sep2013'
+M.Version     = '1.2' -- set_options{histfile='~/d'} expands the tilde
+M.VersionDate = '20oct2013'
 
 -------------------- private utility functions -------------------
 local function warn(str) io.stderr:write(str,'\n') end
@@ -106,33 +106,33 @@ local OldHistoryLength = prv.history_length()
 function M.set_options ( tbl )
 	if tbl == nil then return end
 	if type(tbl) ~= 'table' then
-		die(' readline: tbl must be a table, not '..type(tbl))
+		die('set_options: argument must be a table, not '..type(tbl))
 	end
 	local old_options = deepcopy(Option)
 	for k,v in pairs(tbl) do
 		if k == 'completion' then
 			if type(v) ~= 'boolean' then
-				die('set_options: completion must be boolean, not'..type(v))
+				die('set_options: completion must be boolean, not '..type(v))
 			end
 			prv.tabcompletion ( v )
 			Option[k] = v
 		elseif k == 'histfile' then
 			if v ~= Option['histfile'] then
 				if type(v) ~= 'string' then
-					die('set_options: histfile must be string, not'..type(v))
+					die('set_options: histfile must be string, not '..type(v))
 				end
 				Option[k] = v
 				prv.clear_history()
-				local rc = prv.read_history( Option['histfile'] )
+				local rc = M.read_history( Option['histfile'] )  -- 1.2
 			end
 		elseif k == 'keeplines' or k == 'minlength' then
 			if type(v) ~= 'number' then
-				die('set_options: '..k..' must be number, not'..type(v))
+				die('set_options: '..k..' must be number, not '..type(v))
 			end
 			Option[k] = v
 		elseif k == 'ignoredups' or k == 'auto_add' then
 			if type(v) ~= 'boolean' then
-				die('set_options: '..k..' must be boolean, not'..type(v))
+				die('set_options: '..k..' must be boolean, not '..type(v))
 			end
 			Option[k] = v
 		else
@@ -145,7 +145,7 @@ end
 function M.readline ( prompt )
 	prompt = prompt or ''
 	if type(prompt) ~= 'string' then
-		die(' readline: prompt must be a string, not '..type(prompt))
+		die('readline: prompt must be a string, not '..type(prompt))
 	end
 	local line = prv.readline ( prompt )   -- might be nil if EOF...
 	if Option['auto_add'] and line and line~=''
@@ -160,20 +160,20 @@ end
 
 function M.add_history ( str )
 	if type(str) ~= 'string' then
-		die(' add_history: str must be a string, not '..type(str))
+		die('add_history: str must be a string, not '..type(str))
 	end
 	return prv.add_history ( str )
 end
 
 function M.save_history ( )
 	if type(Option['histfile']) ~= 'string' then
-		die(' save_history: histfile must be a string, not '
+		die('save_history: histfile must be a string, not '
 		  .. type(Option['histfile']))
 	end
 	if Option['histfile'] == '' then return end
 	local histfile = tilde_expand( Option['histfile'] )
 	if type(Option['keeplines']) ~= 'number' then
-		die(' save_history: keeplines must be a number, not '
+		die('save_history: keeplines must be a number, not '
 		  .. type(Option['keeplines']))
 	end
 	local n = prv.history_length()
@@ -316,6 +316,7 @@ for example, on Debian you may also need:
 
 =head1 CHANGES
 
+ 20131020 1.2 set_options{histfile='~/d'} expands the tilde
  20130921 1.1 uses ctermid() (usually /dev/tty) to dialogue with the user
  20130918 1.0 first working version 
 

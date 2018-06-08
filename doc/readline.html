@@ -6,7 +6,7 @@ CONTENT="readline, history, Lua, module, luarocks">
 </HEAD>
 <BODY LINK="#000066" VLINK="#000066" ALINK="#000066">
 <DIV>
-<H1><IMG SRC="../logo.gif" ALT=" " WIDTH=81 HEIGHT=32>
+<H1><IMG SRC="../logo.jpg" ALT=" " WIDTH=126 HEIGHT=52>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <FONT COLOR="#800000"><I>readline.lua</I></FONT>
 </H1>
@@ -155,7 +155,7 @@ so you should be able to install it with the command:</p>
  # luarocks install readline</pre>
 <p>or:</p>
 <pre>
- # luarocks install http://www.pjb.com.au/comp/lua/readline-1.1-0.rockspec</pre>
+ # luarocks install http://www.pjb.com.au/comp/lua/readline-1.2-0.rockspec</pre>
 <p>It depends on the <em>readline</em> library and its header-files;
 for example, on Debian you may also need:</p>
 <pre>
@@ -165,6 +165,7 @@ for example, on Debian you may also need:</p>
 <hr />
 <h2><a name="changes">CHANGES</a></h2>
 <pre>
+ 20131020 1.2 set_options{histfile='~/d'} expands the tilde
  20130921 1.1 uses ctermid() (usually /dev/tty) to dialogue with the user
  20130918 1.0 first working version</pre>
 <p>
@@ -183,7 +184,7 @@ for example, on Debian you may also need:</p>
  <a href="http://cnswww.cns.cwru.edu/php/chet/readline/rltop.html">http://cnswww.cns.cwru.edu/php/chet/readline/rltop.html</a>
  <a href="http://cnswww.cns.cwru.edu/php/chet/readline/readline.html">http://cnswww.cns.cwru.edu/php/chet/readline/readline.html</a>
  <a href="http://cnswww.cns.cwru.edu/php/chet/readline/history.html">http://cnswww.cns.cwru.edu/php/chet/readline/history.html</a>
- /usr/share/readline/inputrc
+ <a href="file:/usr/share/readline/inputrc">/usr/share/readline/inputrc</A>
  ~/.inputrc
  <a href="http://luarocks.org/repositories/rocks/index.html#luaposix">http://luarocks.org/repositories/rocks/index.html#luaposix</a>
  <a href="http://www.pjb.com.au/comp/lua/terminfo.html">terminfo.lua</a>
