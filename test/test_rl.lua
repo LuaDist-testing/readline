@@ -51,6 +51,7 @@ end
 -- for k,v in pairs(M) do print(k,tostring(v)) end
 local filename = '/tmp/test_rl_history'
 M.set_options{histfile=filename}
+os.remove(filename)
 
 print('Please make all answers longer than two characters !')
 local s1 = M.readline('Please enter something: ')
@@ -75,25 +76,26 @@ local lines = {}
 for line in F:lines() do lines[#lines+1] = line end
 F:close()
 if not ok(lines[1] == s1, 'line 1 was '..s1) then
-	print('lines[1]='..lines[1]..' s1='..s1)
+	print('lines[1]='..tostring(lines[1])..' s1='..tostring(s1))
 end
 if not ok(lines[2] == s2, 'line 2 was '..s2) then
-	print('lines[2]='..lines[2]..' s2='..s2)
+	print('lines[2]='..tostring(lines[2])..' s2='..tostring(s2))
 end
 if not ok(lines[3] == s3, 'line 3 was '..s3) then
-	print('lines[3]='..lines[3]..' s3='..s3)
+	print('lines[3]='..tostring(lines[3])..' s3='..tostring(s3))
 end
 if not ok(lines[4] == s4, 'line 4 was '..s4) then
-	print('lines[4]='..lines[4]..' s4='..s4)
+	print('lines[4]='..tostring(lines[4])..' s4='..tostring(s4))
 end
 if not ok(lines[5] == s5, 'line 5 was '..s5) then
-	print('lines[5]='..lines[5]..' s5='..s5)
+	print('lines[5]='..tostring(lines[5])..' s5='..tostring(s5))
 end
 if not ok(lines[6] == s7, 'line 6 was '..s7) then
-	print('lines[6]='..lines[6]..' s7='..s7)
+	print('lines[6]='..tostring(lines[6])..' s7='..tostring(s7))
 end
-
 os.remove(filename)
+
+-- print('strerror(2) = '..M.strerror(2))
 
 if Failed == 0 then
 	print('Passed all '..i_test..' tests :-)')

@@ -1,22 +1,22 @@
 -- This file was automatically generated for the LuaDist project.
 
 package = "readline"
-version = "1.0-1"
+version = "1.1-1"
 -- LuaDist source
 source = {
-  tag = "1.0-1",
+  tag = "1.1-1",
   url = "git://github.com/LuaDist-testing/readline.git"
 }
 -- Original source
 -- source = {
---    url = "http://www.pjb.com.au/comp/lua/readline-1.0.tar.gz",
---    md5 = "5fb86bd008c3ddd7499fc31ef4fbd951"
+--    url = "http://www.pjb.com.au/comp/lua/readline-1.1.tar.gz",
+--    md5 = "b40c579120766651782c312d9d925408"
 -- }
 description = {
    summary = "Interface to the readline library",
    detailed = [[
-      This module is a Lua interface to various "readline" packages.  If no
-      real package is found, it implements the basic functions with stubs.
+      This Lua module offers a simple calling interface
+      to the GNU Readline/History Library.
    ]],
    homepage = "http://www.pjb.com.au/comp/lua/readline.html",
    license = "MIT/X11"

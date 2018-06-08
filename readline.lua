@@ -7,8 +7,8 @@
 ---------------------------------------------------------------------
 
 local M = {} -- public interface
-M.Version     = '1.0' -- first working version
-M.VersionDate = '18sep2013'
+M.Version     = '1.1' -- uses controlling terminal to dialogue with the user
+M.VersionDate = '21sep2013'
 
 -------------------- private utility functions -------------------
 local function warn(str) io.stderr:write(str,'\n') end
@@ -122,10 +122,8 @@ function M.set_options ( tbl )
 					die('set_options: histfile must be string, not'..type(v))
 				end
 				Option[k] = v
-				local rc = prv.clear_history()
-				rc = prv.read_history( Option['histfile'] )
-				OldHistoryLength = prv.history_length()
--- print('OldHistoryLength='..tostring(OldHistoryLength))
+				prv.clear_history()
+				local rc = prv.read_history( Option['histfile'] )
 			end
 		elseif k == 'keeplines' or k == 'minlength' then
 			if type(v) ~= 'number' then
@@ -182,11 +180,16 @@ function M.save_history ( )
 	if n > OldHistoryLength then
 		touch(histfile)
 		local rc = prv.append_history(n-OldHistoryLength, histfile)
-		prv.history_truncate_file ( histfile, Option['keeplines'] )
+		if rc ~= 0 then warn('append_history: '..prv.strerror(rc)) end
+		rc = prv.history_truncate_file ( histfile, Option['keeplines'] )
+		if rc ~= 0 then warn('history_truncate_file: '..prv.strerror(rc)) end
 	end
 	return
 end
 
+function M.strerror ( errnum )
+	return prv.strerror(tonumber(errnum))
+end
 
 return M
 
@@ -227,6 +230,13 @@ Various options can be changed using the I<set_options{}> function.
 The user can configure the GNU Readline (e.g. I<vi> or I<emacs> keystrokes ?)
 with their individual I<~/.inputrc> file,
 see the I<INITIALIZATION FILE> section of I<man readline>.
+
+By default, the GNU I<readline> library dialogues with the user
+by reading from I<stdin> and writing to I<stdout>;
+This fits badly with applications that want to
+use I<stdin> and I<stdout> to input and output data.
+Therefore, this Lua module dialogues with the user on the controlling-terminal
+of the process (typically I</dev/tty>) as returned by I<ctermid()>.
 
 =head1 FUNCTIONS
 
@@ -297,15 +307,16 @@ so you should be able to install it with the command:
 
 or:
 
- # luarocks install http://www.pjb.com.au/comp/lua/readline-1.0-0.rockspec
+ # luarocks install http://www.pjb.com.au/comp/lua/readline-1.1-0.rockspec
 
-It depends on I<readline> library and its header-files;
-for example, on Debian you will need:
+It depends on the I<readline> library and its header-files;
+for example, on Debian you may also need:
 
  # aptitude install libreadline6 libreadline6-dev
 
 =head1 CHANGES
 
+ 20130921 1.1 uses ctermid() (usually /dev/tty) to dialogue with the user
  20130918 1.0 first working version 
 
 =head1 AUTHOR

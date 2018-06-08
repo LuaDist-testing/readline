@@ -10,7 +10,8 @@
 
 #include <lua.h>
 #include <lauxlib.h>
-/* #include <string.h>  thats where strlen & friends are declared */
+/* #include <string.h>  strlen() & friends, including strerror */
+/* #include <unistd.h>  isatty() */
 
 /* --------------- from man readline -------------------- */
 #include <stdio.h>
@@ -21,18 +22,41 @@
      (totally alarming :-( )
    http://cnswww.cns.cwru.edu/php/chet/readline/history.html#IDX5
      (only moderately alarming)
+   http://cnswww.cns.cwru.edu/php/chet/readline/readline.html#IDX207
+   Variable: FILE * rl_instream
+     The stdio stream from which Readline reads input.
+     If NULL, Readline defaults to stdin. 
+   Variable: FILE * rl_outstream
+     The stdio stream to which Readline performs output.
+     If NULL, Readline defaults to stdout. 
+	http://man7.org/linux/man-pages/man3/ctermid.3.html
+	http://man7.org/linux/man-pages/man3/fopen.3.html
+	http://man7.org/linux/man-pages/man3/fileno.3.html
+	http://man7.org/linux/man-pages/man3/isatty.3.html
 */
 /* see Programming in Lua p.233 */
 
-static int c_readline(lua_State *L) {  /* Lua stack: prompt */
+static int c_readline(lua_State *L) {  /* prompt in, line out */
 	size_t len;
 	const char *prompt = lua_tolstring(L, 1, &len);
+	char buffer[L_ctermid];
+	const char *devtty = ctermid(buffer);   /* 20130919 1.1 */
+	FILE *tty_stream;
+	if (devtty != NULL) {
+		tty_stream  = fopen(devtty, "a+");
+		if (tty_stream != NULL) {
+			/* int tty_fd = fileno(tty_stream); */
+			rl_instream  = tty_stream;
+			rl_outstream = tty_stream;
+		}
+	}
     const char *line   = readline(prompt);
 	lua_pushstring(L, line);
+	if (tty_stream != NULL) { fclose(tty_stream); }
 	return 1;
 }
 
-static int c_tabcompletion(lua_State *L) {  /* Lua stack: prompt */
+static int c_tabcompletion(lua_State *L) {  /* Lua stack: is_on */
 	int is_on = lua_toboolean(L, 1);
     if (is_on) {
 		rl_bind_key ('\t', rl_complete);
@@ -65,7 +89,7 @@ static int c_add_history(lua_State *L) {  /* Lua stack: str to be added */
 	return 0;
 }
 
-static int c_append_history(lua_State *L) {  /* num,filename in, void out */
+static int c_append_history(lua_State *L) {  /* num,filename in, rc out */
 	lua_Integer num = lua_tointeger(L, 1);
 	size_t len;
 	const char *filename = lua_tolstring(L, 2, &len);
@@ -74,11 +98,19 @@ static int c_append_history(lua_State *L) {  /* num,filename in, void out */
 	return 1;
 }
 
-static int c_read_history(lua_State *L) {  /* Lua stack: filename */
+static int c_read_history(lua_State *L) {  /* filename in, returncode out */
 	size_t len;
 	const char *filename  = lua_tolstring(L, 1, &len);
     lua_Integer rc = read_history(filename);
 	lua_pushinteger(L, rc);
+	return 1;
+	/* so maybe we should provide access to char *strerror(int errnum); */
+}
+
+static int c_strerror(lua_State *L) {  /* errnum in, errstr out */
+	lua_Integer errnum = lua_tointeger(L, 1);
+	const char * str = strerror(errnum);
+	lua_pushstring(L, str);
 	return 1;
 }
 
@@ -88,19 +120,21 @@ static int c_stifle_history(lua_State *L) {  /* Lua stack: num */
 	return 0;
 }
 
-static int c_write_history(lua_State *L) {  /* Lua stack: filename */
+static int c_write_history(lua_State *L) {  /* filename in, returncode out */
 	size_t len;
 	const char *filename  = lua_tolstring(L, 1, &len);
-    write_history(filename);
-	return 0;
+    lua_Integer rc = write_history(filename);
+	lua_pushinteger(L, rc);
+	return 1;
 }
 
-static int c_history_truncate_file(lua_State *L) {  /* stack: filename,num */
+static int c_history_truncate_file(lua_State *L) { /* filename,num in rc out */
 	size_t len;
 	const char *filename  = lua_tolstring(L, 1, &len);
 	lua_Integer num       = lua_tointeger(L, 2);
-    history_truncate_file(filename, num);
-	return 0;
+    lua_Integer rc = history_truncate_file(filename, num);
+	lua_pushinteger(L, rc);
+	return 1;
 }
 
 /* ----------------- evolved from C-midialsa.c ---------------- */
@@ -122,6 +156,7 @@ static const luaL_Reg prv[] = {  /* private functions */
     {"read_history",          c_read_history},
     {"readline",              c_readline},
     {"stifle_history",        c_stifle_history},
+    {"strerror",              c_strerror},
     {"tabcompletion",         c_tabcompletion},
     {"using_history",         c_using_history},
     {NULL, NULL}
