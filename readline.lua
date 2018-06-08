@@ -7,8 +7,8 @@
 ---------------------------------------------------------------------
 
 local M = {} -- public interface
-M.Version     = '1.2' -- set_options{histfile='~/d'} expands the tilde
-M.VersionDate = '20oct2013'
+M.Version     = '1.3' -- readline erases final space if tab-completion
+M.VersionDate = '31oct2013'
 
 -------------------- private utility functions -------------------
 local function warn(str) io.stderr:write(str,'\n') end
@@ -155,7 +155,11 @@ function M.readline ( prompt )
 			PreviousLine = line
 		end
 	end
-	return line
+	if Option['completion'] then
+		return string.gsub(line, ' $', '')  -- 1.3
+	else
+		return line
+	end
 end
 
 function M.add_history ( str )
@@ -307,7 +311,7 @@ so you should be able to install it with the command:
 
 or:
 
- # luarocks install http://www.pjb.com.au/comp/lua/readline-1.1-0.rockspec
+ # luarocks install http://www.pjb.com.au/comp/lua/readline-1.3-0.rockspec
 
 It depends on the I<readline> library and its header-files;
 for example, on Debian you may also need:
@@ -316,6 +320,7 @@ for example, on Debian you may also need:
 
 =head1 CHANGES
 
+ 20131031 1.3 readline erases final space if tab-completion is used
  20131020 1.2 set_options{histfile='~/d'} expands the tilde
  20130921 1.1 uses ctermid() (usually /dev/tty) to dialogue with the user
  20130918 1.0 first working version 

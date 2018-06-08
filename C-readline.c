@@ -35,6 +35,13 @@
 	http://man7.org/linux/man-pages/man3/isatty.3.html
 */
 /* see Programming in Lua p.233 */
+/* apparently a BUG: after being invoked, c_readline leaves SIGWINCH
+   handling messed up, and the kernel unable to follow further changes
+   in size; thence also tput, stty size, resize, $COLS $ROWS, etc...
+   Only  xwininfo -id $WINDOWID  seems to get up-to-date data.
+   Surprisingly, rl_catch_sigwinch and rl_cleanup_after_signal have no effect
+   http://cnswww.cns.cwru.edu/php/chet/readline/readline.html#SEC43
+*/
 
 static int c_readline(lua_State *L) {  /* prompt in, line out */
 	size_t len;
@@ -50,7 +57,9 @@ static int c_readline(lua_State *L) {  /* prompt in, line out */
 			rl_outstream = tty_stream;
 		}
 	}
+	/* rl_catch_sigwinch = 0; rl_set_signals();  no effect :-( 1.3 */
     const char *line   = readline(prompt);
+	/* rl_cleanup_after_signal(); rl_clear_signals();  no effect :-( 1.3 */
 	lua_pushstring(L, line);
 	if (tty_stream != NULL) { fclose(tty_stream); }
 	return 1;
