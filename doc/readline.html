@@ -52,27 +52,33 @@ to the <em>readline</em> and <em>history</em> libraries</p>
 <pre>
  local RL = require 'readline'
  -- see: man readline
- RL.set_options{ keeplines=1000, histfile='~/.synopsis_history' }
- local str = RL.readline('Please enter some filename: ')
- local save_options = RL.set_options{ completion=false }
- str = RL.readline('Please type a line which can include Tabs: ')
- RL.set_option(save_options)
- str = RL.readline('Now tab-filename-completion is working again: ')
+ RL<A HREF="#set_options">.set_options{ keeplines=1000, histfile='~/.synopsis_history' }</A>
+ local str = RL<A HREF="#readline">.readline('Please enter some filename: ')</A>
+ local save_options = RL<A HREF="#set_options">.set_options{ completion=false }</A>
+ str = RL<A HREF="#readline">.readline('Please type a line which can include Tabs: ')</A>
+ RL<A HREF="#set_options">.set_options(save_options)</A>
+ str = RL<A HREF="#readline">.readline('Now tab-filename-completion is working again: ')</A>
  ...
- PL.save_history() ; os.exit()</pre>
+ RL<A HREF="#save_history">.save_history()</A> ; os.exit()</pre>
 <p>
 </p>
 <hr />
 <h2><a name="description">DESCRIPTION</a></h2>
 <p>This Lua module offers a simple calling interface
-to the GNU Readline/History Library.</p>
-<p>The function <em>readline()</em> is a wrapper, which invokes the GNU
+to the GNU Readline/History Library.
+</p><p>
+The function
+<em><A HREF="#readline">readline()</A></em>
+is a wrapper, which invokes the GNU
 <em>readline</em>, adds the line to the end of the History List,
-and then returns the line.
-Usually you call <em>save_history()</em> before the program exits,
+and then returns the line.  Usually you call
+<em><A HREF="#save_history">save_history()</A></em>
+before the program exits,
 so that the History List is saved to the <em>histfile</em>.
 </p><p>
-Various options can be changed using the <em>set_options{}</em> function.
+Various options can be changed using the
+<em><A HREF="#set_options">set_options{}</A></em>
+function.
 </p><p>
 The user can configure the GNU Readline
 (e.g. <em>vi</em> or <em>emacs</em> keystrokes ?)
@@ -155,16 +161,19 @@ so you should be able to install it with the command:</p>
  # luarocks install readline</pre>
 <p>or:</p>
 <pre>
- # luarocks install http://www.pjb.com.au/comp/lua/readline-1.3-0.rockspec</pre>
+ # luarocks install http://www.pjb.com.au/comp/lua/readline-1.4-0.rockspec</pre>
 <p>It depends on the <em>readline</em> library and its header-files;
-for example, on Debian you may also need:</p>
-<pre>
- # aptitude install libreadline6 libreadline6-dev</pre>
+for example on Debian you may need:<BR>
+<CODE> &nbsp; # aptitude install libreadline6 libreadline6-dev</CODE>
+</P><P>
+or on Centos you may need:<BR>
+<CODE> &nbsp; # yum install readline-devel</CODE></P>
 <p>
 </p>
 <hr />
 <h2><a name="changes">CHANGES</a></h2>
 <pre>
+ 20140519 1.4 installs as readline not Readline under luarocks 2.1.2
  20131031 1.3 readline erases final space if tab-completion is used
  20131020 1.2 set_options{histfile='~/d'} expands the tilde
  20130921 1.1 uses ctermid() (usually /dev/tty) to dialogue with the user
@@ -187,6 +196,7 @@ for example, on Debian you may also need:</p>
  <a href="http://cnswww.cns.cwru.edu/php/chet/readline/history.html">http://cnswww.cns.cwru.edu/php/chet/readline/history.html</a>
  <a href="file:/usr/share/readline/inputrc">/usr/share/readline/inputrc</A>
  ~/.inputrc
+ <a href="http://lua-users.org/wiki/CompleteWithReadline">http://lua-users.org/wiki/CompleteWithReadline</a>
  <a href="http://luarocks.org/repositories/rocks/index.html#luaposix">http://luarocks.org/repositories/rocks/index.html#luaposix</a>
  <a href="http://www.pjb.com.au/comp/lua/terminfo.html">terminfo.lua</a>
  <a href="http://www.pjb.com.au">http://www.pjb.com.au</a>

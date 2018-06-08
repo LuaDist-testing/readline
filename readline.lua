@@ -7,8 +7,8 @@
 ---------------------------------------------------------------------
 
 local M = {} -- public interface
-M.Version     = '1.3' -- readline erases final space if tab-completion
-M.VersionDate = '31oct2013'
+M.Version     = '1.4' -- 
+M.VersionDate = '18mar2014'
 
 -------------------- private utility functions -------------------
 local function warn(str) io.stderr:write(str,'\n') end
@@ -311,15 +311,20 @@ so you should be able to install it with the command:
 
 or:
 
- # luarocks install http://www.pjb.com.au/comp/lua/readline-1.3-0.rockspec
+ # luarocks install http://www.pjb.com.au/comp/lua/readline-1.4-0.rockspec
 
 It depends on the I<readline> library and its header-files;
-for example, on Debian you may also need:
+for example on Debian you may need:
 
  # aptitude install libreadline6 libreadline6-dev
 
+or on Centos you may need:
+
+ # yum install readline-devel
+
 =head1 CHANGES
 
+ 20140519 1.4 installs as readline not Readline under luarocks 2.1.2
  20131031 1.3 readline erases final space if tab-completion is used
  20131020 1.2 set_options{histfile='~/d'} expands the tilde
  20130921 1.1 uses ctermid() (usually /dev/tty) to dialogue with the user
@@ -341,6 +346,7 @@ http://www.pjb.com.au/comp/contact.html
  http://cnswww.cns.cwru.edu/php/chet/readline/history.html
  /usr/share/readline/inputrc
  ~/.inputrc
+ http://lua-users.org/wiki/CompleteWithReadline
  http://luarocks.org/repositories/rocks/index.html#luaposix
  http://www.pjb.com.au
  http://www.pjb.com.au/comp/index.html#lua

@@ -1,4 +1,4 @@
-#! /usr/bin/lua
+#! /usr/local/bin/lua
 local M = require 'readline'
 require 'DataDumper'
 
