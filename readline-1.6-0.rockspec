@@ -1,21 +1,21 @@
 -- This file was automatically generated for the LuaDist project.
 
 package = "readline"
-version = "1.5-0"
+version = "1.6-0"
 -- LuaDist source
 source = {
-  tag = "1.5-0",
+  tag = "1.6-0",
   url = "git://github.com/LuaDist-testing/readline.git"
 }
 -- Original source
 -- source = {
---    url = "http://www.pjb.com.au/comp/lua/readline-1.5.tar.gz",
---    md5 = "6cef95bd94f092b1236a66e2bb72ec62"
+--    url = "http://www.pjb.com.au/comp/lua/readline-1.6.tar.gz",
+--    md5 = "56761d494f3c9056955879e832c8a420"
 -- }
 description = {
    summary = "Interface to the readline library",
    detailed = [[
-      This Lua module offers a simple calling interface
+	  This Lua module offers a simple calling interface
       to the GNU Readline/History Library.
    ]],
    homepage = "http://www.pjb.com.au/comp/lua/readline.html",
@@ -26,14 +26,19 @@ dependencies = {
    "lua >=5.1, <5.3",
    "luaposix >= 30",
 }
+external_dependencies = {  -- Duarn 20150216, 20150416
+	READLINE = {
+		library = "readline";
+	};
+}
 build = {
    type = "builtin",
    modules = {
-      ["readline"] = "readline.lua",
-      ["C-readline"] = {
-         sources   = { "C-readline.c" },
-         libraries = { "readline" },
-      },
+	  ["readline"] = "readline.lua",
+	  ["C-readline"] = {
+		 sources   = { "C-readline.c" },
+		 libraries = { "readline" },
+	  },
    },
    copy_directories = { "doc", "test" },
 }
